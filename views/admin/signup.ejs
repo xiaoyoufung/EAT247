@@ -1,0 +1,54 @@
+<%- include('../templates/head') %>
+
+<div class="admin-login-head">
+    <div><img src="../img/icon/restaurant-logo.png" alt="restaurant-logo"></div>
+    <h1 class="logo">Eat 24/7</h1>
+</div>
+
+<div class="admin-login">
+    <div><img src="../img/icon/restaurant.png" alt=""></div>
+
+    <form action="/admin/signup" method="post">
+        <main class="admin-register" id="login" style="width: 400px;">
+          <div class="head">
+            <h1>Register</h1>
+          </div>
+      
+          <!-- create login form -->
+          <p class="description">Create your very own account</p>
+      
+          <div class="input-container">
+            <label for="user-name"
+              >Username<span class="important">*</span></label
+            >
+            <input type="text" name="username" id="user-name" />
+          </div>
+      
+          <div class="input-container">
+            <label for="email"
+              >Email Address<span class="important">*</span></label
+            >
+            <input type="text" name="email" id="user-name" />
+          </div>
+      
+          <div class="input-container">
+            <label for="password">Password <span class="important">*</span></label>
+            <input type="text" name="password" id="password" />
+          </div>
+      
+          <div>
+            <input type="checkbox" name="member" id="member" />
+            <label for="member">Remember Me</label>
+          </div>
+      
+          <!-- Login CTA -->
+          <div>
+            <button class="btn btn-success" type="submit">Register</button>
+          </div>
+          <!-- signup link -->
+          <p class="signup-link">
+              Already has account? <a href="/admin/signin"> Sign in</a>
+          </p>
+        </main>
+      </form>
+</div>

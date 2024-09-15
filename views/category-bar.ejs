@@ -1,0 +1,17 @@
+<div class="con">
+  <div class="pizza-promote">
+    <h1>SUPREME BBQ</h1>
+    <p>CHICKEN</p>
+  </div>
+</div>
+
+<div id="category-bar">
+  <% categories.forEach( (category) => { %>
+    <a href="/menu/<%= category._id %>">
+  <div class="category">
+    <div><i class="fa-solid fa-xl fa-<%= category.icon %>"></i></div>
+    <p><%= category.name %></p>
+  </div>
+  <% }); %>
+
+</div>

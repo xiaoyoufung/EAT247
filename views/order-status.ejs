@@ -1,0 +1,156 @@
+<%- include('./templates/head') %>
+<%- include('./templates/header') %>
+<%- include('./templates/top-path') %>
+
+    <main id="order-status">
+
+        <!-- customer information -->
+        <div class="customer-info">
+            <div>
+                <b>ORDER PLACED</b>
+                <p><%= date %></p>
+            </div>
+
+            <div>
+                <b>TOTAL</b>
+                <p>£<%= carts.totalPrice.toFixed(2) %></p>
+            </div>
+
+            <div>
+                <b>SHIP TO</b>
+                <p><%= address.firstname %> <%= address.lastname %></p>
+            </div>
+
+            <div>
+                <b>ORDER</b>
+                <p><%= id %></p>
+            </div>
+        </div>
+
+        <!-- display order status -->
+        <div class="status">
+            <p>Order Status: <b><%= status.description %></b></p>
+            <p>Estimated Delivery Time: 30 minutes</p>
+        </div>
+
+        <!-- progress bar -->
+        <ol class="progress-bar">
+            <li data-step="">
+                <img class="clock-icon" src="img/ICON/clock-icon.svg" alt="clock-icon">
+                <p>Queue</p>
+            </li>
+            <li data-step="">
+                <img class="pot-icon" src="img/ICON/CookingPot.svg" alt="CookingPot">
+                <p>Cook</p>
+            </li>
+            <li data-step="" class="progress__last">
+                <img class="drive-icon" src="img/ICON/drive.svg" alt="drive">
+                <p>Delivered</p>
+            </li>
+        </ol>
+
+        <!-- display when order status is delivery -->
+        <% if(status.name === "Delivery" || status.name === "Complete") { %>
+        <!-- customer's shipping information -->
+        <div class="shipped">
+            <div>
+                <h5>SHIPPING INFORMATION</h5>
+                <p><%= address.firstname %> <%= address.lastname %><br>
+                    <%= address.address %> <br>
+                    <%= address.city %>, <%= address.postcode %> <br>
+                    <%= address.phone %></p>
+            </div>
+
+            <div id="map" style="height: 180px; width: 700px;"></div>
+        </div>
+        <% } %>
+        
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+    <script>  
+        // change page icon's color
+        document.getElementById('moto-icon-show').style.display = "none";
+        document.querySelectorAll('.bottom-nav li')[2].style.color="white";
+    
+        // target the progress bar
+        const progressBar = document.querySelector(".progress-bar");
+
+        // create map
+        var map = L.map('map').setView([18.800761219810965, 98.95029908488856], 13);
+
+        // map tile
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+            maxZoom: 25,
+            attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // market icon
+        var taxiIcon = L.icon({
+            iconUrl: '../img/icon/taxi.png',
+            iconSize: [38,38]
+        })
+
+        // create customer location icon
+        var custIcon = L.icon({
+            iconUrl: '../img/icon/red-location.png',
+            iconSize: [38,38]
+        })
+
+        // create restaurant icon
+        var restIcon = L.icon({
+            iconUrl: '../img/icon/red-point.png',
+            iconSize: [12,12]
+        })
+        
+        // add market
+        var restaurantMarker =  L.marker([18.800761219810965, 98.95029908488856], {icon: restIcon}).addTo(map);
+        var restaurantMarker =  L.marker([18.800761219810965, 98.95029908488856], {icon: taxiIcon}).addTo(map);
+        var customerMarket =  L.marker([<%= address.lat %>, <%= address.lon %>], {icon: custIcon}).addTo(map);
+
+        // add line between location
+        let control = L.Routing.control({
+            waypoints: [
+                L.latLng(18.800761219810965, 98.95029908488856),
+                L.latLng(<%= address.lat %>, <%= address.lon %>)
+            ],
+            routeWhileDragging: true,
+            lineOptions: {
+                styles: [{ color: '#5F5F5F', opacity: 1, weight: 3 }]
+            },
+            createMarker: function(i, waypoints, n){ 
+                return L.marker(dStart.latLng, {
+                                    draggable: true,
+                                    bounceOnAdd: true,
+                                    bounceOnAddOptions: {duration: 1000, height: 800, function(){(popup.openOn(map))}}, 
+                                    
+                icon: redMarker}).bindPopup(poppi).openPopup();
+                    },
+        }).on('routesfound', function(e) {
+                console.log(e)
+                e.routes[0].coordinates.forEach((coord, index) => {
+                    setTimeout(()=> {
+                        restaurantMarker.setLatLng([coord.lat, coord.lng])
+                    }, 300 * index)
+                });
+            }).addTo(map);
+
+        // hide control container
+        control.hide();
+    </script>
+      
+      <!-- display the progress bar due to the order status -->
+    <% if(status.name === "Queue") { %>
+        <script> progressBar.querySelectorAll('li')[0].classList.add("is-active");</script>
+    <% }else if(status.name === "Cook") { %>
+        <script> progressBar.querySelectorAll('li')[0].classList.add("is-complete");</script>
+        <script> progressBar.querySelectorAll('li')[1].classList.add("is-active");</script>
+    <% }else if(status.name === "Delivery" || status.name === "Complete") { %>
+        <script> progressBar.querySelectorAll('li')[0].classList.add("is-complete");</script>
+        <script> progressBar.querySelectorAll('li')[1].classList.add("is-complete");</script>
+        <script> progressBar.querySelectorAll('li')[2].classList.add("is-active");</script>
+    <% } %>
+
+<%- include('./templates/footer') %>

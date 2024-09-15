@@ -1,0 +1,20 @@
+
+    <div id="order-status">
+        <a href="/restaurant/<%= allStatus[0]._id %>">
+            <div class="status-name <%= allStatus[0].name %>">
+                <p><%= allStatus[0].name %> (<span><%= numofQueue.length %></span>)</p>
+            </div>
+        </a>
+
+        <a href="/restaurant/<%= allStatus[1]._id %>">
+            <div class="status-name <%= allStatus[1].name %>">
+                <p><%= allStatus[1].name %> (<span><%= numofCook.length %></span>)</p>
+            </div>
+        </a>
+
+        <a href="/restaurant/<%= allStatus[2]._id %>">
+            <div class="status-name <%= allStatus[2].name %>">
+                <p><%= allStatus[2].name %> (<span><%= numofDelivery.length %></span>)</p>
+            </div>
+        </a>
+    </div>

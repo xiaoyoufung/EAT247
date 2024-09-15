@@ -1,0 +1,172 @@
+<%- include('../restaurant/partials/header') %>
+<%- include('../restaurant/partials/nav-bar') %>
+
+<section class="faq">
+    <h1 class="section-heading">
+        Orders
+    </h1>
+
+    <div class="questions-container">
+        <h4>Recent order</h4>
+
+        <%- include('../restaurant/partials/order-status-bar') %>
+        <!-- foreach order -->
+        <% orders.forEach(order => { %>
+            <div class="question">
+                <button class="show-detail">
+                    <div class="order-head-detail">
+                        <span class="order-number">Order #<%= order._id %></span>
+                        <!-- format date -->
+                        <%
+                        const options = {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                        };
+                        let time = order.date.toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" });
+                        let date = order.date.toLocaleString('en-US',options); 
+                        %>
+                        <span class="order-date"><%= date %>, <%= time %></span>
+                    </div>
+    
+                    <div class="d-flex flex-row align-items-center">
+                        <p class="order-total">£<%= order.cart.totalPrice.toFixed(2) %></p>
+    
+                        <div class="show-icon d-flex align-items-center justify-content-center">
+                            <i class="fas fa-chevron-up"></i>
+                        </div>
+                    </div>
+                </button>
+                <div class="detail">
+                    <div class="order-detail-container">
+                        <h5>Order Menu</h5>
+    
+                        <div class="d-flex flex-column justify-content-between head">
+                            <div class="item">
+                                <% const items = order.cart.items
+                                // console.log(order)
+                                %>
+                                <!-- foreach item in cart -->
+                                <% for(item in items) { %>
+                                <div class="cols">
+                                    <div class="cols">
+                                        <div class="img">
+                                            <img src="img/<%= items[item].item.category[0].name %>/<%= items[item].item.name %>.png" alt="order=img">
+                                        </div>
+                                        <div>
+                                            <b><%= items[item].item.name %></b>
+                                            <p>x<%= items[item].qty %></p>
+                                        </div>
+                                    </div>
+                                    <p class="price">£<%= items[item].price.toFixed(2) %></p>
+                                </div>
+                                <% } %>
+                            </div>
+                            <div class="cols total-price">
+                                <b>Total</b>
+                                <h5>£<%= order.cart.totalPrice.toFixed(2) %></h5>
+                            </div>
+                        </div>
+                    </div>
+                    
+    
+                    <div class="border-left"></div>
+    
+                    <!-- customer info -->
+                    <div class="cust-detail-container">
+    
+                        <div>
+                            <h5>Customer Detail</h5>
+                            <% const address = order.address %>
+                            <div>
+                                <div class="cols">
+                                    <p class="cust-name"><%= address.firstname %> <%= address.lastname %></p>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-location-dot me-2"></i>
+                                        <p><%= address.address %> <%= address.city %> <%= address.postcode %></p>
+                                    </div>
+                                </div>
+    
+                                <div class="cols">
+                                    <div class="each-status">
+                                        <p class="status">Status</p>
+                                        <p><%= order.status.status %></p>
+                                    </div>
+    
+                                    <div>
+                                        <p class="date">Date</p>
+                                        <p><%= date %></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+    
+                        <div class="status-btn">
+                            <a href="/delete-order/<%=order._id%>"><button class="btn btn-outline-danger">Cancel Order</button></a>
+                            <a href="/update-order/<%=order._id%>"><button class="btn btn-success">Accept Order</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+        
+    </div>
+</section>
+
+<script>
+    // show order detail when click icon
+    const buttons = document.querySelectorAll('.show-detail');
+    const downBtn = document.querySelectorAll('.fa-chevron-up');
+    const showIcon = document.querySelectorAll('.show-icon');
+    
+    buttons.forEach( button =>{
+        button.addEventListener('click',(e)=>{
+            if(e.target.nodeName === "BUTTON") {
+                const para = e.target.nextElementSibling;
+                const icon = e.target.querySelector('i');
+                const orderDate = e.target.querySelector('.order-date');
+
+                para.classList.toggle('show');
+                icon.classList.toggle('rotate');
+                button.classList.toggle('show');
+                orderDate.classList.toggle('show');
+                e.target.querySelector('.show-icon').classList.toggle('show');
+                e.target.querySelector('.order-total').classList.toggle('show');
+            }
+        })
+    } )
+    showIcon.forEach( (event) => {
+        event.addEventListener('click', (e) => {
+            const parent = e.target.parentElement.parentElement;
+            const para = parent.nextElementSibling;
+            const icon = parent.querySelector('i');
+            const orderDate = parent.querySelector('.order-date');
+
+            para.classList.toggle('show');
+            icon.classList.toggle('rotate');
+            parent.classList.toggle('show');
+            orderDate.classList.toggle('show');
+            parent.querySelector('.show-icon').classList.toggle('show');
+            parent.querySelector('.order-total').classList.toggle('show');
+        })
+    })
+    downBtn.forEach( (event) => {
+        event.addEventListener('click', (e) => {
+            const parent = e.target.parentElement.parentElement.parentElement;
+            const para = parent.nextElementSibling;
+            const icon = parent.querySelector('i');
+            const orderDate = parent.querySelector('.order-date');
+
+            para.classList.toggle('show');
+            icon.classList.toggle('rotate');
+            parent.classList.toggle('show');
+            orderDate.classList.toggle('show');
+            parent.querySelector('.show-icon').classList.toggle('show');
+            parent.querySelector('.order-total').classList.toggle('show');
+        })
+    })
+
+</script>
+
+<%- include('../restaurant/partials/footer') %>

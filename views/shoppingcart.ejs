@@ -1,0 +1,152 @@
+<%- include('./templates/head') %> <%- include('./templates/header') %> <%- include('./templates/top-path') %>
+
+  <main id="checkout">
+    <!-- progress bar -->
+    <ol class="progress-bar">
+      <li class="is-active" data-step="1">Shopping Cart</li>
+      <li data-step="2">Checkout</li>
+      <li data-step="3" class="progress__last">Order Placed</li>
+    </ol>
+
+    <% if(products) { %>
+
+      <!-- check it cart is empty -->
+      <% if(products.length < 1) { %>
+        <section id="cart-empty">
+          <div class="noti">
+            <div class="left"></div>
+            <p>Your cart is currently empty.</p>
+          </div>
+      
+          <a href="/"><button class="btn btn-danger">Return to shop</button></a>
+        </section>
+      <% } else { %>
+      <!-- <form action="" method="post"> -->
+      <div id="show-cart">
+        <!-- items -->
+        <div class="test-product">
+          <b>Product</b>
+          <b>Price</b>
+          <b>Quantity</b>
+          <b>Subtotal</b>
+  
+          <% products.forEach((product) => { %>
+            <div class="product-detail">
+              <a href="/remove/<%= product.item._id %>"><div><i class="fa-solid fa-xmark"></i></div></a>
+    
+              <div class="product-img">
+                <img
+                  src="../img/<%= product.item.category[0].name %>/<%= product.item.name %>.png"
+                  alt=""
+                />
+            </div>
+  
+            <div class="product-name">
+                <h3><%= product.item.name %></h3>
+                <p>Size: 29 cm</p>
+              </div>
+            </div>
+
+            <div class="col">£<%= (product.item.price).toFixed(2) %></div>
+
+            <div class="col">
+              <div class="qty-btn">
+                <a href="/reduce/<%= product.item._id %>"><button class="minus-btn">-</button></a>
+                <span class="cart-num"><%= product.qty %></span>
+                <a href="/add/<%= product.item._id %>"><button class="plus-btn">+</button></a>
+              </div>
+            </div>
+            <div class="col subtotal">£<%= (product.price).toFixed(2) %></div>
+          <% }) %>
+        </div>
+  
+        <!-- item mobile -->
+  
+        <section id="mobile-view">
+
+          <% products.forEach((product) => { %>
+          <div>
+            <a href="/remove/<%= product.item._id %>"><div class="close"><i class="fa-solid fa-xmark"></i></div></a>
+            <div class="col">
+              <h5>Product:</h5>
+              <div>
+                <p><%= product.item.name %></p>
+                <p>Size: 29 cm</p>
+              </div>
+            </div>
+  
+            <div class="col">
+              <h5>Price:</h5>
+              <p>£<%= (product.item.price).toFixed(2) %></p>
+            </div>
+  
+            <div class="col">
+              <h5>Quantity</h5>
+              <div class="qty-btn">
+                <a href="/reduce/<%= product.item._id %>"><button class="minus-btn">-</button></a>
+                <span class="cart-num"><%= product.qty %></span>
+                <a href="/add/<%= product.item._id %>"><button class="plus-btn">+</button></a>
+              </div>
+            </div>
+  
+            <div class="col">
+              <h5>Subtotal:</h5>
+              <p>£<%= (product.price).toFixed(2) %></p>
+            </div>
+          </div>
+          <% }) %>
+
+        </section>
+  
+        <!-- buttons -->
+        <div class="button-section">
+          <div class="checkout-btn">
+            <div>
+              <button class="btn btn-light">Update Cart</button>
+            </div>
+  
+            <div>
+              <a href="/checkout">
+                <button class="btn btn-success">
+                  Proceed to Checkout
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+  
+        <!-- total -->
+        <div class="cart-total">
+          <h4>Cart totals</h4>
+          <div class="total-head"></div>
+  
+          <div class="col">
+            <b>Subtotal</b>
+            <p>£<%= totalPrice.toFixed(2) %></p>
+          </div>
+          <div class="col">
+            <b>Total</b>
+            <h3>£<%= totalPrice.toFixed(2) %></h3>
+          </div>
+        </div>
+      </div>
+  </main>
+
+    <% } %>
+
+<% } else { %>
+  <section id="cart-empty">
+    <div class="noti">
+      <div class="left"></div>
+      <p>Your cart is currently empty.</p>
+    </div>
+
+    <a href="/"><button class="btn btn-danger">Return to shop</button></a>
+  </section>
+<% } %>
+<%- include('./templates/footer') %>
+
+<script>
+  document.getElementById('moto-icon-hide').style.display = "none";
+  document.querySelectorAll('.bottom-nav li')[3].style.color="white";
+</script>

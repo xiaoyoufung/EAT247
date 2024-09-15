@@ -1,0 +1,54 @@
+<%- include('./templates/head'); %>
+<%-include('./templates/header'); %>
+<%-include('./templates/top-path'); %>
+
+
+
+<form action="/orders" method="post">
+
+
+  
+  <main id="tracking">
+    <h1>Track Order</h1>
+
+<!-- display error message -->
+    <% if(session.errorMsg) { %>
+      <div class="display-error-container error">
+        <div class="left"></div>
+        <p><%= session.errorMsg %></p>
+      </div>
+      <!-- delete show error message after display -->
+      <% delete session.errorMsg %>
+    <% } %>
+
+    <p class="my-4">
+      To track your order please enter your Order ID in the box below and press
+      the "Track" button. This was given to you on your receipt and in the
+      confirmation email you should have received.
+    </p>
+
+    <!-- create tracking search bar -->
+    <div class="tracking-input">
+      <div class="d-flex flex-lg-column flex-sm-row flex-lg-row">
+        <label for="">Order ID</label>
+        <input
+          type="text"
+          name="orderId"
+          placeholder="Found in your order confirmation email."
+          required
+        />
+      </div>
+      
+      <div>
+        <button class="btn btn-success" type="submit">Track</button>
+      </div>
+    </div>
+  </main>
+</form>
+<%- include('./templates/footer') %>
+
+<script>
+    // [mobile ver.] change current path icon to white
+    document.querySelectorAll('.bottom-nav li')[2].style.color="white";
+    document.getElementById('moto-icon-show').style.display = "none";
+</script>

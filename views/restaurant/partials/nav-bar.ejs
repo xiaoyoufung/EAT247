@@ -1,0 +1,45 @@
+
+<nav id="rest-top-nav">
+    <div><img src="../img/icon/restaurant-logo-light.png" alt="restaurant-logo"></div>
+    <h1 class="logo">Eat24/7</h1>
+</nav>
+
+<nav id="rest-left-nav">
+    <div class="container">
+        <div class="top">
+          <a href="/restaurant/<%= allStatus[0]._id %>">
+            <i class="fa-solid fa-xl fa-basket-shopping"></i>
+          </a>
+            
+           <a href="/restaurant/admin">
+            <i class="fa-solid fa-xl fa-user"></i>
+           </a> 
+        </div>
+
+        <div>
+            <a href="/admin/signin?q=session-expired"><i class="fa-solid fa-xl fa-right-from-bracket"></i></a>
+        </div>
+    </div>
+    
+</nav>
+
+<!-- bottom nav-bar for tablet and mobile view -->
+<nav class="bottom-nav nav-bar p-4">
+    <ul>
+      <a href="/restaurant/<%= allStatus[0]._id %>">
+
+        <li class="bottom-nav-list">
+          <i class="fa-solid fa-xl fa-basket-shopping"></i>
+          <p>Orders</p>
+        </li>
+      </a>
+  
+      <a href="/restaurant/admin">
+        <li class="bottom-nav-list">
+          <i class="fa-solid fa-user fa-xl"></i>
+          <p>Admin</p>
+        </li>
+      </a>
+    </ul>
+  </nav>
+  

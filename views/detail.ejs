@@ -1,0 +1,130 @@
+<%- include('./templates/head') %> <%- include('./templates/header') %>
+
+<main class="detail">
+  <div
+    class="detail-top justify-content-between pb-3 mb-3 d-flex flex-row align-items-center"
+  >
+    <a href="/"><p class="pl-4">Home</p></a>
+    <i class="fa-solid fa-xs fa-angle-right"></i>
+   <div class="cate-top"><a href="/menu/<%= categoryId %>"> <%= category %></a></div>
+    <i class="fa-solid fa-xs fa-angle-right"></i>
+    <p><%= name %></p>
+  </div>
+
+  <div class="border-top"></div>
+
+  <!-- display message after add to cart -->
+  <% if(session.addedMsg) { %>
+    <div class="display-error-container added">
+      <div class="left"></div>
+      <p><%= session.addedMsg %></p>
+      <div class="right">
+        <a href="/shopping-cart">View cart</a>
+      </div>
+    </div>
+    <!-- delete show error message after display -->
+    <% delete session.addedMsg %>
+  <% } %>
+
+  <!-- add more detail of particualr menu such as size, price, quantity and recommandation menu -->
+  <div class="pizza-con-main d-flex flex-row align-items-center justify-content-center">
+    <img class="detail-pizza-img" src="../img/<%=category%>/<%= name %>.png" alt="Chicken Trio" />
+    <div class="pizza-detail d-flex flex-column justify-content-between">
+      <h1><%= name %></h1>
+      <p>
+        <%= description %>
+      </p>
+      
+      <h3 id="detail-price">£<%= price.toFixed(2) %></h3>
+
+      <div class="product-quantity">
+        <p>Quantity</p>
+        <div class="d-flex flex-row select-quantity-btn">
+          <a href="/reduce-this-qty/<%= id %>"><button>-</button></a>
+          <span class="qty"><%= qty %></span>
+          <a href="/add-this-qty/<%= id %>"><button>+</button></a>
+        </div>
+      </div>
+      <div class="">
+        <div class="d-flex flex-row">
+          <a href="/add-this-to-cart/<%= id %>/<%= qty %>"><button class="btn btn-outline-secondary">
+            <img src="../img/icon/shopping-bag.svg" alt="shopping-bag" width="10px">
+            Add to cart</button></a>
+          <a href="/buy-now/<%= id %>"><button class="btn btn-success mx-2">Buy now</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h5 class="text-center">You may also like</h5>
+    <div class="border-top"></div>
+
+    <a href="/detail">
+      <div class="border-top"></div>
+        
+      
+          <div class="row">
+              <% let i = 0; %>
+              <% pizzas.forEach( (pizza) => { %>
+                <% if (pizza.category[0].name == category) { %>
+                  <% if(i < 3) { %>
+                  <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center pizza mt-5">
+                    <a href="/detail/<%= pizza._id %>">
+                      <img class="pizza-img" src="../img/<%=pizza.category[0].name%>/<%= pizza.name %>.png" alt="pizza-img">
+                      <h4><%= pizza.name %></h4>
+                      <p class="price">£<%= pizza.price %></p>
+                      <span style="display: none;"><%= pizza.category %></span>
+                      <div>
+                          <a href="/add-to-cart/<%= pizza._id %>"><button class="btn btn-outline-secondary">Add to cart</button></a>
+                      </div>
+                    </a>
+                  </div>
+                  <% i++ %>
+                  <% } %>
+              <% } %>
+              <% }) %>
+          </div>
+       
+      </div>
+    </a>
+  </div>
+</main>
+
+<!-- added quantity -->
+
+
+
+<!-- Database needed -->
+<!-- add "Add to cart" and "Buy now" buttons -->
+<script>
+  // Select the "Add to cart" button and add a click event listener to it
+  const addToCartBtn = document.querySelector(".btn-outline-secondary");
+  // addToCartBtn.addEventListener("click", addToCart);
+
+  // Select the "Buy now" button and add a click event listener to it
+  const buyNowBtn = document.querySelector(".btn-success");
+  // buyNowBtn.addEventListener("click", goToCheckout);
+
+  // Function to add the item to the cart
+  function addToCart() {
+    // Add your code here to add the item to the shopping cart
+    // For example, you can use localStorage to store the item
+    // and then retrieve it later when the user goes to the checkout page
+    // localStorage.setItem("item", "example");
+
+    // Update the cart number in the header
+    // let cartNumSpan = document.querySelector("#cart-num");
+    // let currentNum = parseInt(cartNumSpan.textContent);
+    // cartNumSpan.textContent = currentNum + 1;
+  }
+
+  // Function to redirect the user to the checkout page
+  function goToCheckout() {
+    // Redirect the user to the checkout page
+    // replace iwth checkout URL
+    // window.location.href = "/checkout";
+  }
+</script>
+
+<%- include('./templates/footer') %>

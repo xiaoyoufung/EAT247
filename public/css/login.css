@@ -1,0 +1,226 @@
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#login {
+    width:25%;
+    margin: 0 auto;
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: #666;
+}
+
+.admin-login {
+    width: 100% !important;
+    justify-content: center;
+}
+
+#login div {
+    margin-bottom: 3%;
+}
+
+#login h1, #register h1 {
+    margin: 0;
+    margin-bottom: 13%;
+    font-weight: normal;
+    font-size: 28px;
+}
+
+#login .head, #register .head {
+    border-bottom: 2px solid #BF0B26;
+    width: 98px;
+}
+
+#register .red-underline {
+    border-top: 2px solid #BF0B26;
+    width: 130px;
+    margin-top: 2%;
+}
+
+#register .address-head h2 {
+    font-weight: normal;
+    font-size: 30px;
+}
+
+#login .important, #register .important {
+    color: #FF0000;
+    font-weight: 500;
+}
+
+#login .input-container label, #register label {
+    font-weight: 500;
+    margin-bottom: 2%;
+    font-size: 15px;
+}
+#login .input-container input[type=text], input[type="email"], input[type="password"], #register input[type=text]{
+    border-radius: 100px;
+    border: 0.5px solid #9DA3A7;
+    padding: 5px 0 5px 10px;
+}
+
+#login .input-container input[type=text]:focus, input[type="email"]:focus, input[type="password"]:focus, #register input[type=text]:focus, #register textarea:focus {
+    outline: none;
+}
+
+label[for=member], .signup-link
+{
+    font-size: 12px;
+    font-weight: 600;
+}
+.signup-link a {
+    text-decoration: none;
+    color: #BF0B26;
+    margin-left: 1%;
+}
+#login .btn, #register .btn {
+    border-radius: 50px;
+    width: 176px;
+    height: 39px;
+}
+
+.middle-line {
+    border-left: 2px solid #DDD;
+}
+
+/* register */
+
+#register {
+    margin: 7% 10% 0 auto;
+    display: flex;
+    flex-direction: row;
+    color: #666;
+    justify-content: space-between;
+    margin-left: 15%;
+}
+
+#register .description, #login .description {
+    margin: 5% 0 !important;
+}
+
+#register .address-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 3%;
+    align-items: center;
+    width: 100%;
+}
+
+#register .address-container .first {
+    padding-right: 3%;
+    width: 100%;
+}
+
+#register .address-container .last {
+    width: 100%;
+}
+
+#register .user-info {
+    width: 380px;
+}
+
+#register .user-info .input-container {
+    margin-bottom: 8%;
+}
+
+#register .user-address {
+    width: 600px;
+}
+
+#register .user-address .input-container {
+    margin-bottom: 3%;
+}
+
+#register .user-address input[type=text] {
+    width: 100%;
+}
+
+#register .btn {
+    margin: 5% 0;
+}
+
+#register textarea {
+    border: 0.5px solid #9DA3A7;
+}
+
+.admin-register {
+    margin-left: 40px !important;
+    display: flex;
+    justify-content:left !important;
+    min-height: 0 !important;
+}
+
+.admin-register .btn-success {
+    background-color: #BF0B26;
+    border: none;
+}
+
+.admin-login-head {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 60px 0 20px 0;
+}
+
+.admin-login-head img {
+    width: 50px;
+}
+
+.admin-login-head h1 {
+    rotate: -3.67deg;
+    font-family: 'Shrikhand', cursive;
+    color: #BF0B26;
+    font-size: 28px;
+    margin-left: 10px;
+}
+
+.eye {
+    position: absolute;
+    right: 10px;
+    top: 75%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .eye i {
+    font-size: 14px;
+  }
+  #hide1 {
+    display: none;
+  }
+
+/* screen size */
+
+@media screen and (max-width: 1024px) {
+    #login {
+        width: 500px;
+    }
+    #register {
+        margin-left: 6%;
+    }
+    #register .user-address {
+        width: 400px;
+    }
+    #register .middle-line {
+        margin: 0 5%;
+    }
+}
+
+/* mobile */
+
+@media screen and (max-width: 600px) {
+    #login {
+        width: 300px;
+    }
+    #register {
+        display: grid;
+        grid-template-rows: repeat(2, 1fr);
+    }
+    #register .middle-line {
+        display: none;
+    }
+}

@@ -1,0 +1,43 @@
+<%- include('../templates/head') %> <%- include('../templates/header') %>
+
+<form action="/user/signin" method="post">
+  <main id="login">
+    <div class="head">
+      <h1>Login</h1>
+    </div>
+
+    <!-- create login form -->
+    <p class="description">Welcome back! Sign in to you account.</p>
+
+    <div class="input-container">
+      <label for="user-name"
+        >Email Address <span class="important">*</span></label
+      >
+      <input type="text" name="email" id="user-name" />
+    </div>
+
+    <div class="input-container">
+      <label for="password">Password <span class="important">*</span></label>
+      <input type="text" name="password" id="password" />
+    </div>
+
+    <div>
+      <input type="checkbox" name="member" id="member" />
+      <label for="member">Remember Me</label>
+    </div>
+
+    <!-- Login CTA -->
+    <div>
+      <button class="btn btn-success" type="submit">Log in</button>
+    </div>
+    <!-- signup link -->
+    <p class="signup-link">
+      Don't have account yet? <a href="/user/signup"> Sign up</a>
+    </p>
+  </main>
+</form>
+<%- include('../templates/footer') %>
+
+<script>  
+  document.getElementById('moto-icon-hide').style.display = "none";
+</script>

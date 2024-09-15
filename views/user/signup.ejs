@@ -1,0 +1,161 @@
+<%- include('../templates/head') %> <%- include('../templates/header') %>
+
+<form action="/user/signup" method="post">
+  <main id="register">
+    <div class="user-info">
+      <div class="head">
+        <h1>Register</h1>
+      </div>
+
+      <!-- create register form -->
+      <p class="description">Create your very own account</p>
+
+      <div class="input-container">
+        <label for="user-name"
+          >Username <span class="important">*</span></label
+        >
+        <input type="text" name="username" id="user-name" required />
+      </div>
+
+      <div class="input-container">
+        <label for="user-name"
+          >Email Address <span class="important">*</span></label
+        >
+        <input type="email" name="email" id="email" required />
+      </div>
+
+      <div class="input-container">
+        <label for="password">Password <span class="important">*</span></label>
+        <input type="password" name="password" id="password" required />
+      </div>
+
+      <div>
+        <input type="checkbox" name="member" id="member" />
+        <label for="member">Remember Me</label>
+      </div>
+
+      <div>
+        <button class="btn btn-success" type="submit">Register</button>
+      </div>
+
+      <p class="signup-link">
+        Don't have account yet? <a href="/user/signin"> Sign in</a>
+      </p>
+    </div>
+
+    <div class="middle-line"></div>
+
+    <div class="user-address">
+      <div class="address-head">
+        <h2>Delivery Address</h2>
+      </div>
+
+      <div class="red-underline"></div>
+
+      <!-- Fill address details -->
+
+      <p class="description">Fill in your delivery information</p>
+
+      <div class="address-container">
+        <div class="first">
+          <div>
+            <label for="first-name"
+            >First Name <span class="important">*</span></label
+          >
+          </div>
+          
+          <div>
+            <input type="text" name="firstname" id="first-name" required />
+          </div>
+        </div>
+
+        <div class="last">
+          <div><label for="last-name"
+            >Last Name <span class="important">*</span></label
+          ></div>
+          <div><input type="text" name="lastname" id="last-name" required /></div>
+        </div>
+      </div>
+
+
+
+      <div class="input-container">
+        <div> <label>Address <span class="important">*</span></label></div>
+        <div> <input type="text" name="address" required /></div>
+      </div>
+
+      <div class="address-container">
+        <div class="first">
+          <div><label>Post code / Zip <span class="important">*</span></label></div>
+          
+          <div> <input type="text" name="postcode" required /></div>
+        </div>
+
+        <div class="last">
+          <div> <label>Town / City <span class="important">*</span></label></div>
+          <div><input type="text" name="city" required /></div>
+        </div>
+      </div>
+      
+      <div class="address-container">
+        <div class="last">
+          <div><label>Phone Number <span class="important">*</span></label></div>
+          <div><input type="text" name="phone" required /></div>
+        </div>
+      </div>
+
+      <!-- <div class="input-container">
+        <label>Order Notes</label>
+        <textarea name="note" cols="60" rows="3"></textarea>
+      </div> -->
+    </div>
+  </main>
+
+  <!-- send user lat lon to form -->
+  <input type="hidden" name="lat">
+  <input type="hidden" name="lon">
+</form>
+
+
+
+<%- include('../templates/footer') %>
+
+<script>
+ 
+  // get current location of user
+  const success = (position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const apiKey = 'a5dba0b93fac444ba8ab3513538b8565';
+
+      // use geoapify api to transform lat lon of the user into location
+      fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&apiKey=${encodeURIComponent(apiKey)}`)
+      .then(resp => resp.json())
+      .then((response) => {
+        const path = response;
+        const showAdress = path.features[0].properties.formatted;
+        const name = path.features[0].properties.name
+        const street = path.features[0].properties.street;
+        const city = path.features[0].properties.city;
+        const address = name + ', '+ street + ', ' + city;
+        const postCode = path.features[0].properties.postcode;
+
+        // display user's current location into the form
+        document.querySelector("input[name='address']").value = address;
+        document.querySelector("input[name='city']").value = city;
+        document.querySelector("input[name='postcode']").value = postCode;
+        document.querySelector("input[name='lat']").value = lat;
+        document.querySelector("input[name='lon']").value = lon;
+        
+      });
+  }
+
+  const error = (err) => {
+      console.log(err)
+  }
+
+  // use geolocation api to get current lat & lon of the user
+  navigator.geolocation.getCurrentPosition(success, error)
+
+
+</script>

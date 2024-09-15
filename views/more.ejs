@@ -1,0 +1,33 @@
+<%- include('./templates/head') %> <%- include('./templates/header') %> <%- include('./templates/top-path') %>
+
+<main id="more">
+  <h1>Account</h1>
+
+  <div class="col">
+    <i class="fa-solid fa-basket-shopping fa-xl"></i>
+    <p>Orders History</p>
+  </div>
+
+  <div class="col">
+    <i class="fa-solid fa-house fa-xl"></i>
+    <p>Addresses</p>
+  </div>
+
+  <div class="col">
+    <i><i class="fa-solid fa-user fa-xl"></i></i>
+    <p>Account details</p>
+  </div>
+
+  <a href="/logout"><div class="col">
+
+    <i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i>
+    <p>Logout</p>
+  </div></a>
+</main>
+
+<%- include('./templates/footer') %>
+
+<script>
+  document.getElementById('moto-icon-hide').style.display = "none";
+  document.querySelectorAll('.bottom-nav li')[4].style.color="white";
+</script>

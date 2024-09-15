@@ -1,0 +1,87 @@
+<%- include('./templates/head') %> <%- include('./templates/header') %> <%- include('./templates/top-path') %>
+
+<form action="/checkout" method="post">
+  <main id="check-address">
+    <!-- progress bar -->
+    <ol class="progress-bar">
+      <li class="is-complete" data-step="1">Shopping Cart</li>
+      <li class="is-active" data-step="2">Checkout</li>
+      <li data-step="3" class="progress__last">Order Placed</li>
+    </ol>
+
+    <!-- main for order summery -->
+    <div class="main-section">
+      <div class="select-address">
+        <h5>Delivery Address</h5>
+        <div class="head"></div>
+        <label for="address">Locations:</label>
+        <select name="address" id="address">
+          <!-- display customer address -->
+          <% addresses.forEach(address => { %>
+            <option value="<%= address._id %>"> 
+              <% const longAddress = (address.address + address.city + address.postcode).substring(0,40) + '..';
+              %>
+              <%= longAddress %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="order-detail">
+        <h5>Order Details</h5>
+        <div class="head"></div>
+
+        <div class="order-section">
+          <h5>Products</h5>
+          <div class="underline"></div>
+
+          <!-- product detail -->
+          <% products.forEach( (product) => { %>
+            <div class="order-row">
+              <div class="col">
+                <div class="food-name">
+                  <b><%= product.qty %>x</b>
+                  <p><%= product.item.name %></p>
+                </div>
+                <p>£<%= product.price.toFixed(2) %></p>
+              </div>
+              <div class="size">Size: 28 cm</div>
+            </div>
+          <% }) %>
+
+          <!-- total section -->
+
+          <div class="underline"></div>
+
+          <div class="col main">
+            <b>Subtotal</b>
+            <p>£<%= total.toFixed(2) %></p>
+          </div>
+
+          <div class="underline"></div>
+
+          <div class="col main">
+            <b>Delivery</b>
+            <p class="delivery">Free Delivery</p>
+          </div>
+
+          <div class="underline"></div>
+
+          <div class="col main">
+            <b>Order Total</b>
+            <p>£<%= total.toFixed(2) %></p>
+          </div>
+
+          <button class="btn btn-success" type="submit">Place Order</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</form>
+
+<%- include('./templates/footer') %>
+
+<script>  
+  document.getElementById('moto-icon-hide').style.display = "none";
+  document.querySelectorAll('.bottom-nav li')[3].style.color="white";
+</script>

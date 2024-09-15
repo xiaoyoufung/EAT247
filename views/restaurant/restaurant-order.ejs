@@ -1,0 +1,208 @@
+<%- include('../restaurant/partials/header') %>
+<%- include('../restaurant/partials/nav-bar') %>
+
+<section class="faq">
+    <h1 class="section-heading">
+        Orders
+    </h1>
+
+    <div class="questions-container">
+        <h4><%= statusName %></h4>
+
+        <%- include('../restaurant/partials/order-status-bar') %>
+        <!-- foreach order -->
+        <% orders.forEach(order => { %>
+
+            <!-- check if the items are in this category -->
+            <% if(statusName === order.status.name) { %>
+            <div class="question">
+                <button class="show-detail">
+                    <div class="order-head-detail">
+                        <span class="order-number">Order #<%= order._id %></span>
+                        <!-- format date -->
+                        <%
+                        const options = {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                        };
+                        let time = order.date.toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" });
+                        let date = order.date.toLocaleString('en-US',options); 
+                        %>
+                        <span class="order-date"><%= date %>, <%= time %></span>
+                    </div>
+    
+                    <div class="d-flex flex-row align-items-center">
+                        <p class="order-total">£<%= order.cart.totalPrice.toFixed(2) %></p>
+    
+                        <div class="show-icon d-flex align-items-center justify-content-center">
+                            <i class="fas fa-chevron-up"></i>
+                        </div>
+                    </div>
+                </button>
+                <div class="detail">
+                    <div class="cust-info">
+                        <div class="order-detail-container">
+                            <h5>Order Menu</h5>
+        
+                            <div class="d-flex flex-column justify-content-between head">
+                                <div class="item">
+                                    <% const items = order.cart.items
+                                    // console.log(order)
+                                    %>
+                                    <!-- foreach item in cart -->
+                                    <% for(item in items) { %>
+                                    <div class="cols">
+                                        <div class="cols">
+                                            <div class="img">
+                                                <img src="../img/<%= items[item].item.category[0].name %>/<%= items[item].item.name %>.png" alt="order=img">
+                                            </div>
+                                            <div>
+                                                <b><%= items[item].item.name %></b>
+                                                <p>x<%= items[item].qty %></p>
+                                            </div>
+                                        </div>
+                                        <p class="price">£<%= items[item].price.toFixed(2) %></p>
+                                    </div>
+                                    <% } %>
+                                </div>
+                                <div class="cols total-price">
+                                    <b>Total</b>
+                                    <h5>£<%= order.cart.totalPrice.toFixed(2) %></h5>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="border-left"></div>
+        
+                        <!-- customer info -->
+                        <div class="cust-detail-container">
+        
+                            <div>
+                                <h5>Customer Detail</h5>
+                                <% const address = order.address %>
+                                <div>
+                                    <div class="cols">
+                                        <p class="cust-name"><%= address.firstname %> <%= address.lastname %></p>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa-solid fa-location-dot me-2"></i>
+                                            <p><%= address.address %> <%= address.city %> <%= address.postcode %></p>
+                                        </div>
+                                    </div>
+        
+                                    <div class="cols">
+                                        <div class="each-status">
+                                            <p class="status">Status</p>
+                                            <p><%= order.status.status %></p>
+                                        </div>
+        
+                                        <div>
+                                            <p class="date">Date</p>
+                                            <p><%= date %></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="status-btn">
+                                <a href="/restaurant/delete-order/<%=order._id%>"><button class="btn btn-outline-danger">Cancel Order</button></a>
+                                <a href="/restaurant/update/<%= order.status.name %>/<%=order._id%>"><button class="btn btn-success"><%= order.status.name %> Order</button></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- check and display map if the order status is "Delivery" -->
+                    <% if(statusName === 'Delivery') { %>
+                        <!-- provide map api -->
+                        <div class="tracking">
+                            <h5>Track Orders</h5>
+                            <div><iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1682.5453476985383!2d98.98685348921491!3d18.789840566142846!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30da2fe517a5edcf%3A0xd41a7f085917011f!2z4Lie4Li04LiL4LiL4LmI4Liy4Liu4Lix4LiXIOC4quC4suC4guC4suC4oeC4k-C4teC4meC4nuC4o-C4seC4leC4meC5jA!5e0!3m2!1sth!2sth!4v1678041694314!5m2!1sth!2sth" style="border:0;" width="100%" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+                        </div>
+                    <% } %>
+                    
+                </div>
+            </div>
+            <% } %>
+        <% }) %>
+        
+    </div>
+</section>
+
+<script>
+    // show order detail when click icon
+    const buttons = document.querySelectorAll('.show-detail');
+    const downBtn = document.querySelectorAll('.fa-chevron-up');
+    const showIcon = document.querySelectorAll('.show-icon');
+    const orderStatus = document.getElementById('order-status');
+    const btmNav = document.querySelector('.bottom-nav');
+    const leftNav = document.getElementById('rest-left-nav');
+    
+    buttons.forEach( button =>{
+        button.addEventListener('click',(e)=>{
+            if(e.target.nodeName === "BUTTON") {
+                const para = e.target.nextElementSibling;
+                const icon = e.target.querySelector('i');
+                const orderDate = e.target.querySelector('.order-date');
+
+                para.classList.toggle('show');
+                icon.classList.toggle('rotate');
+                button.classList.toggle('show');
+                orderDate.classList.toggle('show');
+                e.target.querySelector('.show-icon').classList.toggle('show');
+                e.target.querySelector('.order-total').classList.toggle('show');
+            }
+        })
+    } )
+    showIcon.forEach( (event) => {
+        event.addEventListener('click', (e) => {
+            const parent = e.target.parentElement.parentElement;
+            const para = parent.nextElementSibling;
+            const icon = parent.querySelector('i');
+            const orderDate = parent.querySelector('.order-date');
+
+            para.classList.toggle('show');
+            icon.classList.toggle('rotate');
+            parent.classList.toggle('show');
+            orderDate.classList.toggle('show');
+            parent.querySelector('.show-icon').classList.toggle('show');
+            parent.querySelector('.order-total').classList.toggle('show');
+        })
+    })
+    downBtn.forEach( (event) => {
+        event.addEventListener('click', (e) => {
+            const parent = e.target.parentElement.parentElement.parentElement;
+            const para = parent.nextElementSibling;
+            const icon = parent.querySelector('i');
+            const orderDate = parent.querySelector('.order-date');
+
+            para.classList.toggle('show');
+            icon.classList.toggle('rotate');
+            parent.classList.toggle('show');
+            orderDate.classList.toggle('show');
+            parent.querySelector('.show-icon').classList.toggle('show');
+            parent.querySelector('.order-total').classList.toggle('show');
+        })
+    })
+
+    // change color of bottom menu
+    btmNav.querySelectorAll('li')[0].style.color = "white";
+
+    // change color of left nav
+    leftNav.querySelectorAll('i')[0].style.color = "#000";
+
+    // change color when click each status
+    let parent = orderStatus.querySelector('.<%= statusName %>').parentElement;
+    parent.style.color = "white";
+    parent.style.background = "#BF0B26";
+</script>
+
+<% if(statusName === "Queue") { %>
+    <script> parent.style.borderRadius = "8px 0px 0px 8px";</script>
+<% }else if(statusName === "Delivery") { %>
+    <script> parent.style.borderRadius = "0px 8px 8px 0px";</script>
+<% } %>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/012f1050b4.js" crossorigin="anonymous"></script>
+</body>
+</html>
